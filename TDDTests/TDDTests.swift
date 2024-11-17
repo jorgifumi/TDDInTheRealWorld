@@ -18,16 +18,16 @@ struct M3U8Parser {
     }
     
     func parse(_ data: Data) throws -> [Track] {
-        if data.isEmpty {
+        guard !data.isEmpty else {
             return []
-        } else {
-            let lines = String(decoding: data, as: Unicode.UTF8.self).components(separatedBy: .newlines)
-            return try lines.map { line in
-                if isValidPath(line) {
-                    Track(path: line)
-                } else {
-                    throw Error.invalidData
-                }
+        }
+        
+        let lines = String(decoding: data, as: Unicode.UTF8.self).components(separatedBy: .newlines)
+        return try lines.map { line in
+            if isValidPath(line) {
+                Track(path: line)
+            } else {
+                throw Error.invalidData
             }
         }
     }
