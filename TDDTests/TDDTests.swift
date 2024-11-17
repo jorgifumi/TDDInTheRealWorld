@@ -78,4 +78,17 @@ struct TDDTests {
         #expect(playlist.count == 1)
         #expect(playlist.first!.path == path)
     }
+    
+    @Test func givenDataWithMultipleTracks_whenParse_ThenDeliverMultipleTracks() async throws {
+        let sut = M3U8Parser()
+        let path1: String = "http://example.com/track1.m4s"
+        let path2: String = "http://example.com/track2.m4s"
+        let data: Data = "\(path1)\n\(path2)".data(using: .utf8)!
+        
+        let playlist = try sut.parse(data)
+        
+        #expect(playlist.count == 2)
+        #expect(playlist.first!.path == path1)
+        #expect(playlist.last!.path == path2)
+    }
 }
