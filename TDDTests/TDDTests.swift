@@ -9,7 +9,7 @@ import Testing
 @testable import TDD
 
 struct Track {
-    
+    let path: String
 }
 
 struct M3U8Parser {
@@ -21,8 +21,19 @@ struct M3U8Parser {
         if data.isEmpty {
             return []
         } else {
-            throw Error.invalidData
+            let lines = String(decoding: data, as: Unicode.UTF8.self).components(separatedBy: .newlines)
+            return try lines.map { line in
+                if isValidPath(line) {
+                    Track(path: line)
+                } else {
+                    throw Error.invalidData
+                }
+            }
         }
+    }
+    
+    private func isValidPath(_ line: String) -> Bool {
+        line.hasPrefix("http://") || line.hasPrefix("https://")
     }
 }
 
@@ -44,5 +55,16 @@ struct TDDTests {
         let playlist = try sut.parse(emptyData)
         
         #expect(playlist.isEmpty)
+    }
+    
+    @Test func givenDataWithOneTrack_whenParse_ThenDeliverOneTrack() async throws {
+        let sut = M3U8Parser()
+        let path: String = "http://example.com/track.m4s"
+        let data: Data = path.data(using: .utf8)!
+        
+        let playlist = try sut.parse(data)
+        
+        #expect(playlist.count == 1)
+        #expect(playlist.first!.path == path)
     }
 }
