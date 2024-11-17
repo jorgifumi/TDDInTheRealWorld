@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		683E533E2CEA5BC30047848D /* TDD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683E53352CEA5BC20047848D /* TDD.framework */; };
+		683E534F2CEA5C740047848D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 683E534E2CEA5C740047848D /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,6 +24,7 @@
 /* Begin PBXFileReference section */
 		683E53352CEA5BC20047848D /* TDD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TDD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		683E533D2CEA5BC30047848D /* TDDTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TDDTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		683E534E2CEA5C740047848D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -73,6 +75,7 @@
 		683E532B2CEA5BC20047848D = {
 			isa = PBXGroup;
 			children = (
+				683E534E2CEA5C740047848D /* README.md */,
 				683E53372CEA5BC20047848D /* TDD */,
 				683E53412CEA5BC30047848D /* TDDTests */,
 				683E53362CEA5BC20047848D /* Products */,
@@ -190,6 +193,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				683E534F2CEA5C740047848D /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
