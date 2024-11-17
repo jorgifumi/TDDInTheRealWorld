@@ -22,7 +22,10 @@ struct M3U8Parser {
             return []
         }
         
-        let lines = String(decoding: data, as: Unicode.UTF8.self).components(separatedBy: .newlines)
+        var lines = String(decoding: data, as: Unicode.UTF8.self).components(separatedBy: .newlines)
+        if lines.first == "#EXTM3U" {
+            lines = Array(lines.dropFirst())
+        }
         return try lines.map { line in
             if isValidPath(line) {
                 Track(path: line)
@@ -90,5 +93,23 @@ struct TDDTests {
         #expect(playlist.count == 2)
         #expect(playlist.first!.path == path1)
         #expect(playlist.last!.path == path2)
+    }
+    
+    @Test func givenDataWithInvalidHeader_whenParse_thenThrowsError() async throws {
+        let sut = M3U8Parser()
+        let data: Data = "#extm3u".data(using: .utf8)!
+        
+        #expect(throws: M3U8Parser.Error.invalidData) {
+            try sut.parse(data)
+        }
+    }
+    
+    @Test func givenDataWithValidHeader_whenParse_thenDontThrows() async throws {
+        let sut = M3U8Parser()
+        let data: Data = "#EXTM3U".data(using: .utf8)!
+        
+        let playlist = try sut.parse(data)
+        
+        #expect(playlist.isEmpty)
     }
 }
