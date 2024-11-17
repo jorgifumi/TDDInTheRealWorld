@@ -8,13 +8,21 @@
 import Testing
 @testable import TDD
 
+struct Track {
+    
+}
+
 struct M3U8Parser {
     enum Error: Swift.Error {
         case invalidData
     }
     
-    func parse(_ data: Data) throws {
-        throw Error.invalidData
+    func parse(_ data: Data) throws -> [Track] {
+        if data.isEmpty {
+            return []
+        } else {
+            throw Error.invalidData
+        }
     }
 }
 
@@ -27,5 +35,14 @@ struct TDDTests {
         #expect(throws: M3U8Parser.Error.invalidData) {
             try sut.parse(invalidData)
         }
+    }
+    
+    @Test func givenEmptyData_whenParse_ThenDeliverEmptyPlaylist() async throws {
+        let sut = M3U8Parser()
+        let emptyData: Data = Data()
+        
+        let playlist = try sut.parse(emptyData)
+        
+        #expect(playlist.isEmpty)
     }
 }
