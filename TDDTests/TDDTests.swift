@@ -33,7 +33,7 @@ struct M3U8Parser {
     }
     
     private func isValidPath(_ line: String) -> Bool {
-        line.hasPrefix("http://") || line.hasPrefix("https://")
+        line.hasPrefix("http://") || line.hasPrefix("https://") || line.hasPrefix("/")
     }
 }
 
@@ -57,9 +57,20 @@ struct TDDTests {
         #expect(playlist.isEmpty)
     }
     
-    @Test func givenDataWithOneTrack_whenParse_ThenDeliverOneTrack() async throws {
+    @Test func givenDataWithOneTrackWithURLPath_whenParse_ThenDeliverOneTrack() async throws {
         let sut = M3U8Parser()
         let path: String = "http://example.com/track.m4s"
+        let data: Data = path.data(using: .utf8)!
+        
+        let playlist = try sut.parse(data)
+        
+        #expect(playlist.count == 1)
+        #expect(playlist.first!.path == path)
+    }
+    
+    @Test func givenDataWithOneTrackWithRelativePath_whenParse_ThenDeliverOneTrack() async throws {
+        let sut = M3U8Parser()
+        let path: String = "/example/track.m4s"
         let data: Data = path.data(using: .utf8)!
         
         let playlist = try sut.parse(data)
